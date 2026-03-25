@@ -10,29 +10,70 @@ package CardGame;
  * Tester program to shuffle and deal a deck of Card objects
  */
 
-public class DeckOfCardsTest
-{
-    public static void main (String[] args)
-    {
-        DeckOfCards myDeckOfCards = new DeckOfCards();
-        myDeckOfCards.shuffle(); // put Card objects in random order
+public class DeckOfCardsTest {
+    public static void main(String[] args) {
+        while (true) {
+            DeckOfCards myDeckOfCards = new DeckOfCards();
+            myDeckOfCards.shuffle(); // put Card objects in random order
 
-        // -----------------------------------------------------------
-        //  print all 52 Cards in the order in which they are dealt
-        // -----------------------------------------------------------
-        for (int i = 0; i < 13; i++)
-        {
-            // printf method is used for formatting output
-            // print string (%) in a space of 20 characters (20s)
-            // the - in the (-20s) makes the String left align
-            // printf can be used with floats, ints and other types as well
-            // cheat sheet @ https://thejavacheatsheet.wordpress.com/2015/04/11/printf/
-            // Guide #2 https://www.cs.colostate.edu/~cs160/.Summer16/resources/Java_printf_method_quick_reference.pdf
-            System.out.printf("%-20s%-20s%-20s%-20s\n",
-                myDeckOfCards.dealCard(), myDeckOfCards.dealCard(),
-                myDeckOfCards.dealCard(), myDeckOfCards.dealCard());
+            Hand player = new Hand();
+            Hand dealer = new Hand();
+
+            player.addCard(new Card("Ace", "Spades"));
+
+            dealer.addCard(myDeckOfCards.dealCard());
+
+            player.addCard(myDeckOfCards.dealCard());
+
+            dealer.addCard(myDeckOfCards.dealCard());
+
+            System.out.println("dealer has: ");
+            System.out.println(dealer.showCard(0));
+            System.out.println("second card hidden");
+            System.out.println("");
+
+            while (true) {
+                System.out.println("player has: ");
+                // System.out.println(player.showCard(0));
+                // System.out.println(player.showCard(1));
+                // System.out.println("player has: ");
+                System.out.println(player);
+                System.out.println(player.countTotal());
+
+                String playerchoice = Tools.MyTools.readString("do you want another card y/n: ");
+                if (playerchoice.equalsIgnoreCase("n")) {
+                    break;
+                }
+
+                player.hitdeck(playerchoice, myDeckOfCards.dealCard());
+                System.out.println();
+
+            }
+
+            // String playerchoice1 = Tools.MyTools.readString("do you want another card
+            // y/n");
+
+            // player.hitdeck(playerchoice1,myDeckOfCards.dealCard());
+
+            System.out.println("player has: ");
+            System.out.println(player);
+            System.out.println(player.countTotal());
+
+            System.out.println(dealer.dealerPlays("y", myDeckOfCards.dealCard()));
+            System.out.println(dealer);
+            System.out.println(dealer.dealerPlays("y", myDeckOfCards.dealCard()));
+            System.out.println(dealer);
+            System.out.println(dealer.dealerPlays("y", myDeckOfCards.dealCard()));
+            System.out.println(dealer);
+            System.out.println(dealer.dealerPlays("y", myDeckOfCards.dealCard()));
+
+            System.out.println(player.whoWins(player.countTotal(), dealer.dealerPlays("y", myDeckOfCards.dealCard())));
+
+            String playerchoice = Tools.MyTools.readString("do you want to play again? : ");
+            if (playerchoice.equalsIgnoreCase("n")) {
+                break;
+            }
 
         }
-
     }
 }
